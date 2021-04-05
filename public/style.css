@@ -1,0 +1,153 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.container {
+  width: 20rem;
+  font-family: "Noto Sans", sans-serif;
+  font-style: normal;
+  letter-spacing: -0.035em;
+}
+
+.main-container {
+  border: 1px solid black;
+  border-radius: 24px;
+  display: grid;
+  grid-template-rows: 70px 90px 110px 150px;
+  padding: 20px;
+}
+
+form {
+  display: grid;
+  grid-template-rows: auto auto auto;
+}
+
+input {
+  width: 100%;
+  border-radius: 5px;
+  font-family: inherit;
+  font-style: inherit;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: inherit;
+  color: #828282;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+  color: #333333;
+}
+
+.description {
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  color: #333333;
+}
+
+.symbols {
+  margin: 20px 0;
+}
+.profile-text {
+  text-align: center;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 19px;
+  color: #828282;
+}
+
+.profile-symbols {
+  display: flex;
+  justify-content: center;
+}
+
+img {
+  padding: 4px;
+  filter: opacity(40%);
+  margin: 10px 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+}
+
+.login {
+  margin-top: 7px;
+  text-align: center;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 19px;
+  color: #828282;
+}
+
+.email,
+.password {
+  border: 1px solid #bdbdbd;
+  text-indent: 40px;
+}
+
+.email {
+  background-image: url("images/email-icon.png");
+  background-repeat: no-repeat;
+  background-size: 9%;
+  background-position: 5px center;
+  color: #000000;
+  font-size: 14px;
+}
+
+.password {
+  background-image: url("images/password-icon.png");
+  background-repeat: no-repeat;
+  background-size: 8%;
+  background-position: 6px center;
+  color: #000000;
+  font-size: 1px;
+}
+
+.btn-submit {
+  color: #ffffff;
+  background: #2f80ed;
+  border: none;
+}
+
+.created-by {
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: -0.035em;
+  color: #828282;
+  margin-top: 5px;
+}
+
+/* pseudo classes */
+img:hover {
+  border: 1px solid grey;
+}
+img:active {
+  background-color: rgb(180, 180, 180);
+}
+
+.btn-submit:hover {
+  background: #2365bd;
+}
+
+.btn-submit:active {
+  background: #2f80ed;
+}
+
+.email::placeholder,
+.password::placeholder {
+  color: #828282;
+}

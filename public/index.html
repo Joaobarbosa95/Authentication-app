@@ -1,0 +1,46 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication-app</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>  
+
+
+    <div class="container">
+        <div class="main-container">
+            <div class="title">Join thousands of learners from around the world</div>
+            <div class="description">Master web-development by making real-like projects. There are multiple paths for you to choose.</div>
+            <form action="/auth/local" method="post">    
+                <input type="text" name="email" placeholder="Email" class="email">
+                <br>
+                <input type="password" name="password" placeholder="Password" class="password">
+                <br>
+                <input type="submit" value="Start coding now" class="btn-submit">
+            </form>
+
+            <div class="symbols">
+                <div class="profile-text">or continue with these social profile</div>
+                
+                <div class="profile-symbols">
+                    <img src="images/twitter-icon.png" alt="twitter icon" onclick="window.location.href='http:\/\/127.0.0.1:3000/auth/Twitter'">
+                    <img src="images/google-icon.png" alt="google icon">
+                    <img src="images/facebook-icon.png" alt="facebook icon">
+                    <img src="images/github-icon.png" alt="github icon">
+                </div>
+                <div class="login">Already a member? <a href="/login">Login</a></div>
+            </div>
+    
+        </div>
+
+       
+        <div class="created-by">created by <u>João Barbosa</u></div>
+    </div>
+    <!-- <div>Authentication-app</div>
+    <button type="button"  ">Twitter</button>
+    <button type="button"  onclick="window.location.href='http:\/\/127.0.0.1:3000/logout'">Logout</button> -->
+
+</body>
+</html>
