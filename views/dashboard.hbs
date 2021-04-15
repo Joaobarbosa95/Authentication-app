@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication-app</title>
+    <link rel="stylesheet" href="dashboard-style.css">
+</head>
+
+<body>
+    <header>
+        <div class="header-box">
+            <span>{{name}}name</span>
+            <img src="{{photo}}" alt="profile photo">
+            <span>></span>
+        </div>
+    </header>
+
+    <main>
+
+        {{!-- Dashboard description --}}
+        <div class="title">
+            <h1>Personal Info</h1>
+            <h2>Basic info if you have bad memory</h2>
+        </div>
+
+        {{!-- Main container --}}
+        <div class="container">
+            <table style="width: 100%;">
+                <colgroup>
+                    <col style="width: 40%;">
+                    <col style="width: 100%;">
+                </colgroup>
+
+                {{!-- Profile edit --}}
+                <tr class="profile-edit inside-grid"">
+                    <td style=" display: inline-block;">
+                    <p id=" profile">Profile</p>
+                    <p id="profile-desc">Change your info if you live a double life or need to change
+                        identity
+                    </p>
+                    <button type="button" id="profile-edit-btn" style="float: right;">Edit</button>
+                    </td>
+                </tr>
+
+                {{!-- Information --}}
+                <tr>
+                    <td>
+
+                        <span class="profile-info-desc">Photo</span>
+                        <img src="{{photo}}https://wonderfulengineering.com/wp-content/uploads/2014/01/highway-wallpapers-15.jpg"
+                            id="profile-photo" alt=" profile photo" class="profile-info-user">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="profile-info-desc">Name</span>
+                        <span class="profile-info-user">{{name}}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="profile-info-desc">Bio</span>
+                        <span class="profile-info-user">{{bio}}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="profile-info-desc">Phone</span>
+                        <span class="profile-info-user">{{phone}}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="profile-info-desc">Email</span>
+                        <span class="profile-info-user">{{email}}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </main>
+
+    {{!-- created by --}}
+    <p id="created-by">Created by João Barbosa</p>
+
+    {{!-- header navigation hidden box --}}
+    <button type="button" onclick="window.location.href='http://127.0.0.1:3000/logout'">Logout</button>
+</body>
+
+</html>

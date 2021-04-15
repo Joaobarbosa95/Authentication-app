@@ -26,6 +26,14 @@ body {
   padding: 20px;
 }
 
+.main-container-login {
+  border: 1px solid black;
+  border-radius: 24px;
+  display: grid;
+  grid-template-rows: 70px 140px 80px 70px;
+  padding: 20px;
+}
+
 form {
   display: grid;
   grid-template-rows: auto auto auto;
@@ -114,7 +122,7 @@ img {
   background-size: 8%;
   background-position: 6px center;
   color: #000000;
-  font-size: 1px;
+  font-size: 14px;
 }
 
 .btn-submit {

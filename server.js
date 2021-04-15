@@ -13,115 +13,98 @@
 // Twitter API keys as environment variables
 require("dotenv").config();
 
-const passport = require("passport");
-const { Strategy } = require("passport-twitter");
-const express = require("express");
-
 const path = require("path");
 
-const User = require("./model/user");
-const mongoose = require("mongoose");
+// database
+require("./mongoose/mongoose");
 
-const database = "mongodb://127.0.0.1:27017/Authentication-app";
+// passport
+const passport = require("./passport-strategies/passport");
+// express
+const express = require("express");
+const expressSession = require("./express-session");
 
-mongoose.connect(database, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true,
-});
+// authentication middleware
+const authRoutes = require("./routes/auth");
+const { authentication, hasOpenSession } = require("./auth/auth");
 
-// mongo-connect
-const MongoStore = require("connect-mongo");
-
-const app = express();
 const port = process.env.PORT || 3000;
+
+// express config
+const app = express();
 const staticFiles = path.join(__dirname, "./public");
 app.use(express.static(staticFiles));
-
-//
-passport.use(
-  new Strategy(
-    {
-      consumerKey: process.env["TWITTER_CONSUMER_KEY"],
-      consumerSecret: process.env["TWITTER_CONSUMER_SECRET"],
-      callbackURL: "http://127.0.0.1:3000/auth/twitter/callback",
-    },
-    async function (token, secretToken, profile, cb) {
-      let user = await User.findOne({
-        OAuth: { id: profile.id, provider: "Twitter" },
-      });
-      if (!user) {
-        user = await new User({
-          name: profile.displayName,
-          photo: { URL: profile.photos[0].value, local: false },
-          OAuth: { id: profile.id, provider: "Twitter" },
-        }).save();
-      }
-
-      return cb(null, user._id);
-    }
-  )
-);
-
-// Serialize
-passport.serializeUser(function (user, cb) {
-  // access to user info
-  cb(null, user);
-});
-
-passport.deserializeUser(function (obj, cb) {
-  console.log(obj);
-  // obj is user passed in cb, retrived from serializeUser
-  cb(null, obj);
-});
-
-// app.use(require("morgan")("combined"));
 app.use(require("body-parser").urlencoded({ extended: true }));
-app.use(
-  require("express-session")({
-    secret: "keyboard cat",
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: "auto", maxAge: 1000 * 60 * 60 * 24 }, //need to be a https to be true, else throws an error
-    store: MongoStore.create({
-      mongoUrl: database,
-      collection: "sessions",
-    }),
-  })
-);
+app.use(require("morgan")("combined"));
 
+app.use(expressSession);
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get("/", (req, res) => {
-  console.log("esta a sair ", req.user);
-  res.send("<h1>Logged in</h1>");
-});
+// user model
+const User = require("./model/user");
 
-app.get("/auth/twitter", passport.authenticate("twitter"));
-
-app.get("/login", (req, res) => {
-  res.send("<h1>Login</h1>");
-});
-
-app.get(
-  "/auth/twitter/callback",
-  passport.authenticate("twitter", {
-    failureRedirect: "/login",
-  }),
-  function (req, res) {
-    res.redirect("/");
-  }
+// Views engine
+const hbs = require("express-hbs");
+const auth = require("./auth/auth");
+app.engine(
+  "hbs",
+  hbs.express4({
+    partialsDir: __dirname + "/views/partials",
+  })
 );
+app.set("view engine", "hbs");
+app.set("views", __dirname + "/views");
 
-app.get("/logout", function (req, res) {
+//---------------------------------------------
+app.get("/", hasOpenSession, (req, res) => {
+  res.render("main");
+});
+
+app.use("/auth", authRoutes);
+
+app.get("/dashboard", authentication, (req, res) => {
+  User.findOne({});
+  console.log(req.user);
+  res.render("dashboard", {
+    name: req.user.name,
+    photo: req.user.photo,
+    bio: req.user.bio,
+    phone: req.user.phone,
+    email: req.user.email,
+  });
+});
+
+app.get("/login", hasOpenSession, (req, res) => {
+  res.render("login");
+});
+
+app.get("/logout", authentication, function (req, res) {
+  console.log(req.session);
   req.session.destroy(function (err) {
     if (err) console.log("FODEU GERAU");
     req.logout();
     res.clearCookie("connect.sid", { path: "/" });
-    res.redirect("/");
+    res.redirect("/login");
   });
 });
 
+app.post(
+  "/register",
+  function (req, res, next) {
+    User.findOne({ email: req.body.email }, (err, user) => {
+      if (!user) {
+        next();
+      } else {
+        res.redirect("/login");
+      }
+    });
+  },
+  async (req, res) => {
+    let user = new User({ email: req.body.email, password: req.body.password });
+    await user.save();
+  }
+);
+
+app.get("register", (req, res) => {});
 app.listen(port, () => console.log("Server running on port %s", port));
